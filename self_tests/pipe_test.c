@@ -36,12 +36,16 @@ int main(void)
 		for (int i = 0; i < 4; i++)
 		{
 			printf("sending: %s\n", arrays[i]);
-			write(fd[WRITE_END], arrays[i], strlen(arrays[i])+1);
+			if (i != 3) {
+				write(fd[WRITE_END], arrays[i], strlen(arrays[i]));
+			}
+			else {
+				write(fd[WRITE_END], arrays[i], strlen(arrays[i]) + 1);
+			}
 		}
 		/* close the write end of the pipe */ 
-		wait(NULL);
-		printf("line 41\n");
 		close(fd[WRITE_END]);
+		wait(NULL);
 	} else { /* child process */
 		/* close the unused end of the pipe */ close(fd[WRITE_END]);
 		/* read from the pipe */
@@ -49,7 +53,6 @@ int main(void)
 			printf("read: %s\n",read_msg);
 			
 		}
-		printf("line 49\n");
 		/* close the write end of the pipe */
 		close(fd[READ_END]);
 	}
