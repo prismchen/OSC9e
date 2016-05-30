@@ -2,6 +2,7 @@
 #include <stdio.h> 
 #include <string.h> 
 #include <unistd.h>
+#include <sys/wait.h>
 
 #define BUFFER_SIZE 25 
 #define READ_END 0 
@@ -32,23 +33,26 @@ int main(void)
 		close(fd[READ_END]);
 		/* write to the pipe */
 
-		for (int i = 0; i < sizeof(arrays); ++i)
+		for (int i = 0; i < 4; i++)
 		{
-			printf("%d\n", i);
+			printf("sending: %s\n", arrays[i]);
 			write(fd[WRITE_END], arrays[i], strlen(arrays[i])+1);
 		}
 		/* close the write end of the pipe */ 
+		wait(NULL);
+		printf("line 41\n");
 		close(fd[WRITE_END]);
 	} else { /* child process */
 		/* close the unused end of the pipe */ close(fd[WRITE_END]);
 		/* read from the pipe */
 		while (read(fd[READ_END], read_msg, BUFFER_SIZE) != 0) {
 			printf("read: %s\n",read_msg);
-			break;
+			
 		}
 		printf("line 49\n");
 		/* close the write end of the pipe */
 		close(fd[READ_END]);
 	}
+	printf("ending: %d\n", pid);
 	return 0;
 }
