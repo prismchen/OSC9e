@@ -19,6 +19,7 @@
 
 #include <pthread.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int sum; /* this data is shared by the thread(s) */
 
