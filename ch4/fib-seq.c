@@ -22,8 +22,6 @@ int main(int argc, char *argv[])
 
 	fib_arr = malloc(sizeof(int) * num);
 
-	
-
 	pthread_t tid;
 	pthread_attr_t attr;
 
@@ -32,7 +30,6 @@ int main(int argc, char *argv[])
 
 	pthread_join(tid, NULL);
 
-	
 	for (int i = 0; i < num; ++i)
 	{
 		printf("%d ", fib_arr[i]);
